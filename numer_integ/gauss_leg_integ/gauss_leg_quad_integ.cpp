@@ -11,9 +11,8 @@ using namespace std;
 float f(float x)
 {
 	// Function 1 - x + 3x^2 + (7/2)x^3
-	return 1 - x + 3*pow(x,2) + (7/2)*pow(x,3);
+	return 1 - x + 3*pow(x,2) + 3.5*pow(x,3);
 }
-
 
 int main() {
 	// Variable definition
