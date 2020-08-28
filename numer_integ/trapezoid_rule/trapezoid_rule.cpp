@@ -1,4 +1,4 @@
-// Gaussian quadrature rule of numerical integration for polynomials
+// Trapezoid Rule for approximating definite integrals
 
 #include <iostream>
 #include <vector>
@@ -7,7 +7,7 @@
 #include <string>
 using namespace std;
 
-// Define function for the function (polynomial) to be integrated
+// Define function for the function to be integrated
 float f(float x)
 {
 	// Function 1 - x + 3x^2 + (7/2)x^3
