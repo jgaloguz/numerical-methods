@@ -16,10 +16,10 @@ float ODE(vector<float> &Y, float x)
 // Define function for n-dim ODE
 void nODE(vector<float> &Y, vector<float> &K, float x, float dx, int size)
 {
-	int i;
+	int i;		// dummy index
 	for(i = 0; i < size-1; i++)		
 	{
-		K[i] = dx*Y[i+1];
+		K[i] = dx*Y[i+1];	// K_i = d^iY/dx^i
 	}
 	K[size-1] = dx*ODE(Y,x);
 }
@@ -27,29 +27,33 @@ void nODE(vector<float> &Y, vector<float> &K, float x, float dx, int size)
 // Define function for vector-vector addition
 void v_add(vector<float> &V1, vector<float> &V2, vector<float> &Vr, int size)
 {
-	int i;
+	int i;		// dummy index
 	for(i = 0; i < size; i++)
 	{
-		Vr[i] = V1[i] + V2[i];
+		Vr[i] = V1[i] + V2[i];	// add each component
 	}
 }
 
 // Define function for vector-scalar multiplication
 void vs_mul(float a, vector<float> &V, vector<float> &Vr, int size)
 {
-	int i;
+	int i;		// dummy index
 	for(i = 0; i < size; i++)
 	{
-		Vr[i] = a*V[i];
+		Vr[i] = a*V[i];		// scale each component
 	}
 }
 
 int main() {
 	// Variable definition
-	int i, j;
-	int deg, N;
-	float a, b, x, dx;
-	ofstream solution;
+	int i, j;		// dummy indices
+	int deg;		// degree of ODE
+	int N;			// number of grid points
+	float a;		// left endpoint of interval
+	float b;		// right endpoint of interval
+	float x;		// dummy variable
+	float dx;		// step size
+	ofstream solution;	// solution file
 
 	// Input grid parameters
 	cout << "Input initial value location: "; 	// Ask for initial value location
@@ -75,7 +79,7 @@ int main() {
 	// Ask user for initial values
 	for(i = 0; i < deg; i++)
 	{
-		cout << "Input initial value " << i << " : ";
+		cout << "Input initial value " << i << " : ";	// prompt for initial values
 		cin >> sol[i];
 	}
 
