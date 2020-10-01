@@ -113,6 +113,7 @@ int main(void) {
    cout << "solution:" << endl;
    for(i = 0; i < N; i++) cout << b[i] << endl;
 
+	// Clean-up
    delete2D(A,N,N);
    delete[] b;
 
