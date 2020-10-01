@@ -35,7 +35,7 @@ int main() {
 	float b;			// right endpoint of interval
 	float x;			// dummy variable
 	float dx;			// step size
-	ofstream solution;
+	ofstream solution;		// solution file
 
 	// Input grid parameters
 	cout << "Input initial value location: "; 	// Ask for initial value location
