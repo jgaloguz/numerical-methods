@@ -18,19 +18,23 @@ int fact(int n)
 {
 	if (n == 0)
 	{
-		return 1;
+		return 1;	// Return 1
 	}
 	else
 	{
-		return n*fact(n-1);
+		return n*fact(n-1);	// Return n * factorial of n - 1 (recursive call)
 	}
 }
 
 int main() {
 	// Variable definition
-	int i, j, k;
-	int deg, N;
-	float a, b, x, dx;
+	int i, j, k;			// dummy indices
+	int deg;			// degree of ODE
+	int N;				// number of grid points
+	float a;			// left endpoint of interval
+	float b;			// right endpoint of interval
+	float x;			// dummy variable
+	float dx;			// step size
 	ofstream solution;
 
 	// Input grid parameters
@@ -50,7 +54,7 @@ int main() {
 							// derivatives at each point in grid
 	for(i = 0; i < deg; i++)			// Ask user for initial values
 	{
-		cout << "Input initial value " << i << " : ";
+		cout << "Input initial value " << i << " : ";	// prompt for initial values
 		cin >> sol[i];
 	}
 
