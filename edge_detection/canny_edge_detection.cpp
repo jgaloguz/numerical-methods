@@ -8,7 +8,7 @@
 
 using namespace std;
 
-// Definition of pi
+// Definition of pi, +-pi/2, +-pi/4
 const double pi = M_PI;
 const double pi_2 = M_PI/2;
 const double pi_4 = M_PI/4;
@@ -39,12 +39,12 @@ template <class T> void delete2D(T **array, int h, int w)
 // Define initializing array function
 void init2D(double **A, int h, int w)
 {
-	int i,j;
+	int i,j;	// dummy indices
 	for(i = 0; i < h; i++)
 	{
 		for(j = 0; j < w; j++)
 		{
-			A[i][j] = 0;
+			A[i][j] = 0;	// set entry to zero
 		}
 	}
 }
@@ -52,13 +52,13 @@ void init2D(double **A, int h, int w)
 // Define print array function
 void print2D(double **A, int h, int w, int p)
 {
-	int i,j;
-	cout << setprecision(p);
+	int i,j;	// dummy indices
+	cout << setprecision(p);	// set precision
 	for(i = 0; i < h; i++)
 	{
 		for(j = 0; j < w; j++)
 		{
-			cout << A[i][j] << " ";
+			cout << A[i][j] << " ";	// print entry
 		}
 		cout << endl;
 	}
@@ -67,7 +67,7 @@ void print2D(double **A, int h, int w, int p)
 // Define read from file function
 void read2D(double **A, ifstream& file, string path, int h, int w, int margin_h, int margin_w)
 {
-	int i,j;
+	int i,j;		// dummy indices
 	file.open(path);			// Open file
 	for(i = 0; i < h; i++)
 	{
@@ -82,7 +82,7 @@ void read2D(double **A, ifstream& file, string path, int h, int w, int margin_h,
 // Define write to file function
 void write2D(double **A, ofstream& file, string path, int h, int w, int margin_h, int margin_w)
 {
-	int i,j;
+	int i,j;		// dummy indices
 	file.open(path);			// Open file
 	for(i = 0; i < h; i++)
 	{
@@ -98,13 +98,13 @@ void write2D(double **A, ofstream& file, string path, int h, int w, int margin_h
 // Define matrix dot product function
 double mat_dot(double **A, double **B, int lim_h, int lim_w, int shift_h, int shift_w, int H, int W)
 {
-	int i,j;
-	double S = 0;
+	int i,j;		// dummy indices
+	double S = 0;		// dot product
 	for(i = 0; i < lim_h; i++)
 	{
 		for(j = 0; j < lim_w; j++)
 		{
-			S += A[(i+shift_h) % H][(j+shift_w) % W]*B[i][j];
+			S += A[(i+shift_h) % H][(j+shift_w) % W]*B[i][j];	// dot with kernel/mask using periodic boundary conditions (torus)
 		}
 	}
 	return S;
@@ -113,12 +113,12 @@ double mat_dot(double **A, double **B, int lim_h, int lim_w, int shift_h, int sh
 // Define convolution function 2D arrays
 void conv2D(double **img, double **ker, double **con, int h, int w, int margin_h, int margin_w, int H, int W, int lim_h, int lim_w)
 {
-	int i,j;
+	int i,j;			// dummy indices
 	for(i = 0; i < h; i++)
 	{
 		for(j = 0; j < w; j++)
 		{
-			con[i+margin_h][j+margin_w] = mat_dot(img, ker, lim_h, lim_w, i, j, H, W);
+			con[i+margin_h][j+margin_w] = mat_dot(img, ker, lim_h, lim_w, i, j, H, W);	// convolve with kernel/mask
 		}
 	}
 }
@@ -127,12 +127,12 @@ void conv2D(double **img, double **ker, double **con, int h, int w, int margin_h
 /*
 void pad_image(double **raw_img, double **pad_img, int h, int w, int margin_h, int margin_w)
 {
-	int i,j;
+	int i,j;			// dummy indices
 	for(i = 0; i < h; i++)
 	{
 		for(j = 0; j < w; j++)
 		{
-			pad_img[i+margin_h][j+margin_w] = raw_img[i][j];
+			pad_img[i+margin_h][j+margin_w] = raw_img[i][j];	// copy image with padding on edges
 		}
 	}
 }
@@ -141,17 +141,17 @@ void pad_image(double **raw_img, double **pad_img, int h, int w, int margin_h, i
 // Define Gaussian smoother initializing function
 void G_smooth(double **G, int n_G, double std)
 {
-	int i,j;
-	int k = n_G/2;
+	int i,j;		// dummy indices
+	int k = n_G/2;		// half of size
 	if(std == 0)						// No smoothing
 	{
 		G[k][k] = 1;
 	}
 	else							// Smoothing
 	{
-		double var = pow(std,2);
-		double twovar = 2*var;
-		double twopivar = pi*twovar;
+		double var = pow(std,2);			// variance
+		double twovar = 2*var;				// twice the variance
+		double twopivar = pi*twovar;			// 2pi * variance
 		for(i = 0; i < n_G; i++)
 		{
 			for(j = 0; j < n_G; j++)
@@ -165,7 +165,7 @@ void G_smooth(double **G, int n_G, double std)
 // Define smooth image function
 void smooth_image(double **img, double **smooth_image, int n_G, double std, int h, int w, int margin_h, int margin_w, int H, int W)
 {
-	int i,j;
+	int i,j;			// dummy indices
 	double **gauss_smoother;						// Gaussian smoother
 
 	// Allocate memory
@@ -184,7 +184,7 @@ void smooth_image(double **img, double **smooth_image, int n_G, double std, int 
 // Define compute gradients function
 void comp_grad(double **img, double **Ln, double **Ld, int h, int w, int margin_h, int margin_w, int H, int W)
 {
-	int i,j,k,l;
+	int i,j,k,l;							// dummy indices
 	double **Sx, **Sy;						// x and y finite difference operators
 	double **Lx, **Ly;						// x and y approximate gradient arrays
 	double diag, cent, ndiag, ncent;				// coefficients for operators
@@ -243,13 +243,13 @@ void comp_grad(double **img, double **Ln, double **Ld, int h, int w, int margin_
 // Define interpolation function
 double interpol(double A, double B, double a, double b, double h, double t)
 {
-	return A*(b-t)/h + B*(t-a)/h;
+	return A*(b-t)/h + B*(t-a)/h;		// value on segment between A and B
 }
 
 // Define non-maximum suppression function
 void non_max_supp(double **Ln, double **Ld, double **L, int h, int w, int margin_h, int margin_w)
 {
-	int i,j,k,l;
+	int i,j,k,l;			// dummy indices
 	double pgrad,ngrad;					// Interpolated values in the positive and negative gradient directions
 
 	for(i = 0; i < h; i++)
@@ -259,22 +259,22 @@ void non_max_supp(double **Ln, double **Ld, double **L, int h, int w, int margin
 			k = i+margin_h;
 			l = j+margin_w;
 			// Interpolate
-			if(Ld[k][l] > pi_4)
+			if(Ld[k][l] > pi_4)	// pi_2 > angle > pi/4
 			{
 				pgrad = interpol(Ln[k-1][l+1],Ln[k-1][l],pi_4,pi_2,pi_4,Ld[k][l]);
 				ngrad = interpol(Ln[k+1][l-1],Ln[k+1][l],pi_4,pi_2,pi_4,Ld[k][l]);
 			}
-			else if(Ld[k][l] > 0)
+			else if(Ld[k][l] > 0)	// pi_4 > angle > 0
 			{
 				pgrad = interpol(Ln[k][l+1],Ln[k-1][l+1],0,pi_4,pi_4,Ld[k][l]);
 				ngrad = interpol(Ln[k][l-1],Ln[k+1][l-1],0,pi_4,pi_4,Ld[k][l]);
 			}
-			else if(Ld[k][l] > npi_4)
+			else if(Ld[k][l] > npi_4)	// 0 > angle > -pi/4
 			{
 				pgrad = interpol(Ln[k+1][l+1],Ln[k][l+1],npi_4,0,pi_4,Ld[k][l]);
 				ngrad = interpol(Ln[k-1][l-1],Ln[k][l-1],npi_4,0,pi_4,Ld[k][l]); 
 			}
-			else
+			else				// -pi_4 > angle > -pi/2
 			{
 				pgrad = interpol(Ln[k+1][l],Ln[k+1][l+1],npi_2,npi_4,pi_4,Ld[k][l]);
 				ngrad = interpol(Ln[k-1][l],Ln[k-1][l-1],npi_2,npi_4,pi_4,Ld[k][l]);
@@ -291,8 +291,8 @@ void non_max_supp(double **Ln, double **Ld, double **L, int h, int w, int margin
 // Define max function
 double max2D(double **A, int h, int w, int margin_h, int margin_w)
 {
-	int i,j,k,l;
-	double max = 0;
+	int i,j,k,l;			// dummy indices
+	double max = 0;			// maximum entry
 	for(i = 0; i < h; i++)
 	{
 		for(j = 0; j < w; j++)
@@ -311,8 +311,8 @@ double max2D(double **A, int h, int w, int margin_h, int margin_w)
 // Define two threshold function
 void two_threshold(double **L, double ht, double lt, int h, int w, int margin_h, int margin_w)
 {
-	int i,j,k,l;
-	double Lij, max = max2D(L,h,w,margin_h,margin_w);
+	int i,j,k,l;		// dummy indices
+	double Lij, max = max2D(L,h,w,margin_h,margin_w);	// dummy variable and maximum
 	for(i = 0; i < h; i++)
 	{
 		for(j = 0; j < w; j++)
@@ -339,7 +339,7 @@ void two_threshold(double **L, double ht, double lt, int h, int w, int margin_h,
 // Define copy matrix function
 void copy2D(double **A, double **B, int h, int w, int margin_h, int margin_w)
 {
-	int i,j,k,l;
+	int i,j,k,l;			// dummy indices
 	for(i = 0; i < h; i++)
 	{
 		for(j = 0; j < w; j++)
@@ -354,7 +354,7 @@ void copy2D(double **A, double **B, int h, int w, int margin_h, int margin_w)
 // Define check equality function
 bool check2D(double **A, double **B, int h, int w, int margin_h, int margin_w)
 {
-	int i,j,k,l;
+	int i,j,k,l;			// dummy indices
 	for(i = 0; i < h; i++)
 	{
 		for(j = 0; j < w; j++)
@@ -373,9 +373,9 @@ bool check2D(double **A, double **B, int h, int w, int margin_h, int margin_w)
 // Define hysteresis function
 void hysteresis(double **L, double **edges, int h, int w, int margin_h, int margin_w)
 {
-	int i,j,k,l;
+	int i,j,k,l;		// dummy indices
 	do {
-		copy2D(L,edges,h,w,margin_h,margin_w);
+		copy2D(L,edges,h,w,margin_h,margin_w);		// copy edges to L
 		for(i = 0; i < h; i++)
 		{
 			for(j = 0; j < w; j++)
@@ -430,7 +430,7 @@ void hysteresis(double **L, double **edges, int h, int w, int margin_h, int marg
 			l = j+margin_w;
 			if(edges[k][l] == 0.5)
 			{
-				edges[k][l] = 0;
+				edges[k][l] = 0;		// set isolated weak edges to zero
 			}
 		}
 	}
