@@ -23,7 +23,7 @@ void v_add(vector<float> &V1, vector<float> &V2, vector<float> &Vr, int size)
 	int i;
 	for(i = 0; i < size; i++)
 	{
-		Vr[i] = V1[i] + V2[i];
+		Vr[i] = V1[i] + V2[i];	// add components
 	}
 }
 
@@ -33,16 +33,18 @@ void vs_mul(float a, vector<float> &V, vector<float> &Vr, int size)
 	int i;
 	for(i = 0; i < size; i++)
 	{
-		Vr[i] = a*V[i];
+		Vr[i] = a*V[i];		// scale components
 	}
 }
 
 int main() {
 	// Variable definition
-	int i, j, N = 10000;
-	float sigma = 10, rho = 28, beta = 8.0/3;
-	float x0 = 1, y0 = 1, z0 = 1, t = 0, dt = 0.01;
-	ofstream solution;
+	int i, j;			// dummy indices
+	int N = 10000;			// number of iterations
+	float sigma = 10, rho = 28, beta = 8.0/3;	// parameters
+	float x0 = 1, y0 = 1, z0 = 1;	// Initial conditions
+	float t = 0, dt = 0.01;		// Initial time and step size
+	ofstream solution;		// Output file
 
 	// Define trajectory and derivative in vector form
 	vector<float> X(3);
