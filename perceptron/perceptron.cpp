@@ -33,30 +33,30 @@ template <class T> void delete2D(T **array, int h, int w)
 // Define initializing array function
 void init2D(float **A, int h, int w)
 {
-	int i,j;
+	int i,j;		// dummy indinces
 	for(i = 0; i < h; i++)
 	{
 		for(j = 0; j < w; j++)
 		{
-			A[i][j] = 0;
+			A[i][j] = 0;	// set entry to zero
 		}
 	}
 }
 
-// Define print array function
+// Define perceptron function
 float percep(vector<float> &W, float b, float **X, int vec, int dim)
 {
-	int i;
-	float S = b;
+	int i;		// dummy index
+	float S = b;	// value related to distance from and location wrt to hyperplane
 	for(i = 0; i < dim; i++)
 	{
-		S += W[i]*X[vec][i];
+		S += W[i]*X[vec][i];	// find whether point is "above" or "below" hyperplane
 	}
-	if (S > 0)
+	if (S > 0)		// above
 	{
 		return 1;
 	}
-	else
+	else			// below
 	{
 		return 0;
 	}
@@ -71,13 +71,13 @@ int main() {
 	float LR = 0.1;								// Learning rate
 	float bias = 0;								// Bias
 	float y = 0, delta = 0;							// Dummy variables
-	float **data;
+	float **data;								// data matrix
 	bool check = true;							// Check to see if perceptron is trained
 	ifstream data_set;							// File with separable data set
 	ofstream hyperplane;							// File with weight and bias to separate the data set
 	
 	// Open data file
-	data_set.open("separable_set.txt");
+	data_set.open("separable_set.txt");					// open file
 	data_set >> N;								// Input number of vectors in the data set
 	data_set >> K;								// Input number of dimensions for each vector
 	
@@ -88,9 +88,9 @@ int main() {
 	vector<float> weight(K);
 	for (i = 0; i < K; i++)
 	{
-		weight[i] = 0;
+		weight[i] = 0;	// initialize weights
 	}
-	vector<int> classif(N);
+	vector<int> classif(N);	// declare classification array
 	
 	// Input vectors from file
 	for (j = 0; j < N; j++)
@@ -101,7 +101,7 @@ int main() {
 		}
 		data_set >> classif[j];
 	}
-	data_set.close();
+	data_set.close();							// close file
 	
 	// Train perceptron
 	while (check)
@@ -109,16 +109,16 @@ int main() {
 		check = false;
 		for (j = 0; j < N; j++)
 		{
-			y = percep(weight, bias, data, j, K);
+			y = percep(weight, bias, data, j, K);			// check jth point
 			if (y != classif[j])					// Update weights and bias if classification is incorrect
 			{
 				counter++;
-				check = true;
-				delta = LR*(classif[j] - y);
-				bias += delta;
+				check = true;					// remian in loop
+				delta = LR*(classif[j] - y);			// compute amount to change bias and weights
+				bias += delta;					// change bias
 				for (i = 0; i < K; i++)
 				{
-					weight[i] += delta*data[j][i];
+					weight[i] += delta*data[j][i];		// change weights
 				}
 			}
 		}
@@ -127,13 +127,13 @@ int main() {
 	cout << endl << "Perceptron trained!" << endl;
 	cout << "Number of updates made during training: " << counter << endl << endl;
 	// Output weight and bias to file for visualization
-	hyperplane.open("hyperplane.txt");
-	hyperplane << bias << endl;
+	hyperplane.open("hyperplane.txt");		// open file
+	hyperplane << bias << endl;			// output bias
 	for (i = 0; i < K; i++)
 	{
-		hyperplane << weight[i] << " ";
+		hyperplane << weight[i] << " ";		// output weights
 	}
-	hyperplane.close();
+	hyperplane.close();				// close file
 	
 	// Deallocate memory
 	delete2D<float>(data,N,K);
