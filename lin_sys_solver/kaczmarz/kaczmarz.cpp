@@ -96,19 +96,20 @@ int main(void) {
    guesses.close();                    // close iterations file
 
    // output approximate solution, iterations, and accuracy
-   if(iter == max_iter) {
+   if(iter == max_iter) {	// solution not found
       cout << "Solution could not be approximated to desired accuracy"
            << " within " << iter << " iterations..." << endl
            << "The current best guess is:" << endl;
       for(i = 0; i < N; i++) cout << x[i] << endl;
       cout << "with accuracy " << error(A,b,x,N) << endl;
    }
-   else {
+   else {			// solution found
       cout << "Solution approximated within " << iter << " iterations:" << endl;
       for(i = 0; i < N; i++) cout << x[i] << endl;
       cout << "with accuracy " << error(A,b,x,N) << endl;
    }
 
+	// Clean-up
    delete2D(A,N,N);
    delete[] row_norm2;
    delete[] b;
