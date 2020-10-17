@@ -1,4 +1,4 @@
-// Gaussian quadrature rule of numerical integration for polynomials
+// Gaussian quadrature rule of numerical integration (exact for polynomials)
 
 #include <iostream>
 #include <vector>
@@ -7,7 +7,7 @@
 #include <string>
 using namespace std;
 
-// Define function for the function (polynomial) to be integrated
+// Define function for the function to be integrated
 float f(float x)
 {
 	// Function 1 - x + 3x^2 + (7/2)x^3
@@ -16,12 +16,15 @@ float f(float x)
 
 int main() {
 	// Variable definition
-	int i, j, k;
-	int N, Q;
-	float a, b, l, L;
-	float pt, wt, S = 0;
-	ifstream points, weights;
-	string trash;
+	int i, j, k;					// dummy variables
+	int N;						// order of (polynomial) approximation
+	int Q;						// numer of terms needed in weigthed sum
+	float a, b;					// left and right endpoints
+	float l, L;					// difference and sum between bounds
+	float pt, wt;					// evaluation points and weights
+	float S = 0;					// integral value
+	ifstream points, weights;			// files to input points and weights
+	string trash;					// trash
 
 	// Input basic parameter
 	cout << "Input lower bound of integration: "; 	// Ask for lower bound
@@ -50,7 +53,7 @@ int main() {
 		weights >> wt;
 		S += wt*f(0.5*(l*pt + L));
 	}
-	S *= 0.5*l;
+	S *= 0.5*l;					// scale due to change of variables [a,b] -> [-1,1]
 	points.close();					// Close points file
 	weights.close();				// Close weights file
 
