@@ -16,9 +16,11 @@ float f(float x)
 
 int main() {
 	// Variable definition
-	int i, j, k, N, M;
-	float a, b, dx, x;
-	float S = 0;
+	int i, j, k;					// dummy indices
+	int N, M;					// number of grid points and intervals
+	float a, b;					// endpoints of interval
+	float dx, x;					// step size and current location
+	float S = 0;					// result
 
 	// Input basic parameter
 	cout << "Input lower bound of integration: "; 	// Ask for lower bound
@@ -34,11 +36,11 @@ int main() {
 	// Approximate solution
 	for(i = 1; i < M; i++)
 	{
-		x += dx;
-		S += (i % 2 ? 4.0/3 : 2.0/3) * f(x);
-	}
-	S += (f(a) + f(b))/3;
-	S *= dx;
+		x += dx;				// take step
+		S += (i % 2 ? 4.0/3 : 2.0/3) * f(x);	// add 4/3 * f(x) if odd
+	}						//  or 2/3 * f(x) if even
+	S += (f(a) + f(b))/3;				// add endpoint terms
+	S *= dx;					// scale by step size
 
 	// Output value
 	cout << "Integral = " << S << endl;
