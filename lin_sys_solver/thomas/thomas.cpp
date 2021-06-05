@@ -54,7 +54,7 @@ void thomas(double **A, double *b, double *x, int N, int bandwidth)
 int main(void) {
    int i,j;          // dummy indices
    int N;            // size of the system
-   int bandwidth;    // bandwidth of the system
+   int W;            // bandwidth of the system (number of non-zero diagonals divided by 2)
    double **A;       // matrix
    double *b;        // row vector
    double *x;        // solution vector
@@ -63,7 +63,7 @@ int main(void) {
    system.open("system.txt");    // open system file
 
    system >> N;                  // input system dimension
-   system >> bandwidth;          // input system bandwidth
+   system >> W;                  // input system bandwidth
 
    // Initialiaze matrix and independent coefficient vector
    A = create2D<double>(N,N);
@@ -80,7 +80,7 @@ int main(void) {
 
    system.close();               // close system file
 
-   thomas(A,b,x,N,bandwidth);    // solve system
+   thomas(A,b,x,N,W);            // solve system
 
    // output solution
    cout << "solution:" << endl;
