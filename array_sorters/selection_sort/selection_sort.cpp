@@ -14,7 +14,7 @@ void swap(int * a, int * b) {
    *b = temp;
 }
 
-// Insertion-sort function
+// Selection-sort function
 void SelectionSort(int * A, int N) {
    int i, j;                           // dummy indices
    int min;                            // next smallest item
