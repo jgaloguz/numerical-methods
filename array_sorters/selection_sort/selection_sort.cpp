@@ -7,15 +7,17 @@
 #include <random>
 using namespace std;
 
-// Swap function
-void Swap(int * a, int * b) {
+// Swap two variables
+void Swap(int * a, int * b)
+{
    int temp = *a;
    *a = *b;
    *b = temp;
-}
+};
 
-// Selection-sort function
-void SelectionSort(int * A, int N) {
+// Selection-sort process
+void SelectionSort(int * A, int N)
+{
    int i, j;                           // dummy indices
    int min;                            // next smallest item
    // Sort
@@ -27,24 +29,26 @@ void SelectionSort(int * A, int N) {
       };
       Swap(A+i,A+min);                 // swap A[i] with smallest item in A[i:N-1]
    };
-}
+};
 
-// Function to check if array is sorted
-bool CheckSort(int * array, int N) {
+// Check if array is sorted
+bool CheckSort(int * array, int N)
+{
    for (int i = 0; i < N-1; i++) {
       if (array[i] > array[i+1]) return false;  // if any elements out of order, return false
    };
    return true;                                 // if all elements in order, return true
-}
+};
 
-// Function to print array
-void PrintArray(int * array, int N, int M) {
+// Print array
+void PrintArray(int * array, int N, int M)
+{
    int n_digits = floor(log10(M) + 1.0) + 1;    // find width for output as number of digits possible plus 1 (for space)
    for (int i = 0; i < N; i++) cout << setw(n_digits) << array[i];
    cout << endl;
-}
+};
 
-// Function for automatically test sorting function
+// Automatically test Sorting function
 void AutomatedTest(int * array, int N, int M) {
    int n_tests = 1000;                          // number of tests to perform
    int pass = 0;                                // number of tests passed
@@ -58,7 +62,7 @@ void AutomatedTest(int * array, int N, int M) {
    cout << "Automated Testing Results: " << pass
         << " out of " << n_tests
         << " correctly sorted." << endl;
-}
+};
 
 int main() {
    // Variable definition
@@ -66,7 +70,7 @@ int main() {
    int M;                     // maximum possible value of elements in array
    int *array;                // array to sort
 
-   srand (time(NULL));        // initalize random seed
+   srand(time(NULL));         // initalize random seed
 
    // Input basic parameters
    cout << "Number of elements in array: ";           // Ask for size of array
@@ -94,4 +98,4 @@ int main() {
 
    delete[] array;            // De-allocate memory
    return 0;                  // End of the program
-}
+};

@@ -7,24 +7,26 @@
 #include <random>
 using namespace std;
 
-// Swap function
-void Swap(int * a, int * b) {
+// Swap two variables
+void Swap(int * a, int * b)
+{
    int temp = *a;
    *a = *b;
    *b = temp;
-}
+};
 
-// Parent function
-int Parent(int i) {return i / 2;}
+// Parent index
+int Parent(int i) {return i / 2;};
 
-// Left child function
-int LeftChild(int i) {return 2 * i;}
+// Left child index
+int LeftChild(int i) {return 2 * i;};
 
-// Right child function
-int RightChild(int i) { return 2 * i + 1;}
+// Right child index
+int RightChild(int i) { return 2 * i + 1;};
 
-// Function to make subtree rooted at i of input array a max heap
-void MaxHeapify(int * A, int heapsize, int i) {
+// Make subtree rooted at i of input array a max heap
+void MaxHeapify(int * A, int heapsize, int i)
+{
    int l = LeftChild(i);      // find left child of node i
    int r = RightChild(i);     // find right child of node i
    int max = i;               // i contains largest value by default
@@ -35,16 +37,18 @@ void MaxHeapify(int * A, int heapsize, int i) {
       Swap(A+i,A+max);                          // swap i with largest
       MaxHeapify(A,heapsize,max);               // maxheapify on newly swapped child
    };
-}
+};
 
-// Function to build a max heap from arbitrary array
-void BuildMaxHeap(int * A, int heapsize) {
+// Build a max heap from arbitrary array
+void BuildMaxHeap(int * A, int heapsize)
+{
    // "Comb" the max heap from parents, to grand-parents, ..., to root
    for (int i = (heapsize/2)-1; i >= 0; i--) MaxHeapify(A,heapsize,i);
-} 
+};
 
-// Heap-sort function
-void HeapSort(int * A, int N) {
+// Heap-sort process
+void HeapSort(int * A, int N)
+{
    BuildMaxHeap(A,N);            // convert input array into a max heap
    // loop right-to-left through generations from right-most child to left child of root
    for (int i = N-1; i >= 1; i--) {
@@ -52,25 +56,28 @@ void HeapSort(int * A, int N) {
       Swap(A,A+i);               // root of sub-heap is largest element in A[0,..,i]
       MaxHeapify(A,i,0);         // maxheapify from the new root
    };
-}
+};
 
-// Function to check if array is sorted
-bool CheckSort(int * array, int N) {
+// Check if array is sorted
+bool CheckSort(int * array, int N)
+{
    for (int i = 0; i < N-1; i++) {
       if (array[i] > array[i+1]) return false;  // if any elements out of order, return false
    };
    return true;                                 // if all elements in order, return true
-}
+};
 
-// Function to print array
-void PrintArray(int * array, int N, int M) {
+// Print array
+void PrintArray(int * array, int N, int M)
+{
    int n_digits = floor(log10(M) + 1.0) + 1;    // find width for output as number of digits possible plus 1 (for space)
    for (int i = 0; i < N; i++) cout << setw(n_digits) << array[i];
    cout << endl;
-}
+};
 
-// Function for automatically test sorting function
-void AutomatedTest(int * array, int N, int M) {
+// Automatically test Sorting function
+void AutomatedTest(int * array, int N, int M)
+{
    int n_tests = 1000;                          // number of tests to perform
    int pass = 0;                                // number of tests passed
    for (int test = 0; test < n_tests; test++) {
@@ -83,7 +90,7 @@ void AutomatedTest(int * array, int N, int M) {
    cout << "Automated Testing Results: " << pass
         << " out of " << n_tests
         << " correctly sorted." << endl;
-}
+};
 
 int main() {
    // Variable definition
@@ -91,7 +98,7 @@ int main() {
    int M;                     // maximum possible value of elements in array
    int *array;                // array to sort
 
-   srand (time(NULL));        // initalize random seed
+   srand(time(NULL));         // initalize random seed
 
    // Input basic parameters
    cout << "Number of elements in array: ";           // Ask for size of array
@@ -119,4 +126,4 @@ int main() {
 
    delete[] array;            // De-allocate memory
    return 0;                  // End of the program
-}
+};

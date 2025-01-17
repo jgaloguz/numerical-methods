@@ -22,12 +22,12 @@ traj_y = []
 traj_z = []
 traj_t = []
 for line in traj_file:
-	data = line.split()
-	print(data)
-	traj_x.append(float(data[0]))
-	traj_y.append(float(data[1]))
-	traj_z.append(float(data[2]))
-	traj_t.append(float(data[3]))
+   data = line.split()
+   print(data)
+   traj_x.append(float(data[0]))
+   traj_y.append(float(data[1]))
+   traj_z.append(float(data[2]))
+   traj_t.append(float(data[3]))
 
 traj_file.close()
 

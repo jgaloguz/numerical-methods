@@ -7,8 +7,9 @@
 #include <random>
 using namespace std;
 
-// Merge function
-void Merge(int * A, int left, int mid, int right, int M) {
+// Merge sorted halves
+void Merge(int * A, int left, int mid, int right, int M)
+{
    int i, j, k;                        // dummy indices
    int N1 = mid-left+1;                // size of left half of array
    int N2 = right-mid;                 // size of right half of array
@@ -32,35 +33,39 @@ void Merge(int * A, int left, int mid, int right, int M) {
    // de-allocate memory
    delete[] A1;
    delete[] A2;
-}
+};
 
-// Merge-sort function
-void MergeSort(int * A, int left, int right, int M) {
+// Merge-sort process
+void MergeSort(int * A, int left, int right, int M)
+{
    if (left < right) {                 // if left index is not equal to right index
       int mid = (left + right) / 2;    // find (integer) midpoint
       MergeSort(A,left,mid,M);         // sort left half of array recursively
       MergeSort(A,mid+1,right,M);      // sort right half of array recursively
       Merge(A,left,mid,right,M);       // Merge two sorted halves
    };
-}
+};
 
-// Function to check if array is sorted
-bool CheckSort(int * array, int N) {
+// Check if array is sorted
+bool CheckSort(int * array, int N)
+{
    for (int i = 0; i < N-1; i++) {
       if (array[i] > array[i+1]) return false;  // if any elements out of order, return false
    };
    return true;                                 // if all elements in order, return true
-}
+};
 
-// Function to print array
-void PrintArray(int * array, int N, int M) {
+// Print array
+void PrintArray(int * array, int N, int M)
+{
    int n_digits = floor(log10(M) + 1.0) + 1;    // find width for output as number of digits possible plus 1 (for space)
    for (int i = 0; i < N; i++) cout << setw(n_digits) << array[i];
    cout << endl;
-}
+};
 
-// Function for automatically test sorting function
-void AutomatedTest(int * array, int N, int M) {
+// Automatically test Sorting function
+void AutomatedTest(int * array, int N, int M)
+{
    int n_tests = 1000;                          // number of tests to perform
    int pass = 0;                                // number of tests passed
    for (int test = 0; test < n_tests; test++) {
@@ -73,7 +78,7 @@ void AutomatedTest(int * array, int N, int M) {
    cout << "Automated Testing Results: " << pass
         << " out of " << n_tests
         << " correctly sorted." << endl;
-}
+};
 
 int main() {
    // Variable definition
@@ -81,7 +86,7 @@ int main() {
    int M;                     // maximum possible value of elements in array
    int *array;                // array to sort
 
-   srand (time(NULL));        // initalize random seed
+   srand(time(NULL));         // initalize random seed
 
    // Input basic parameters
    cout << "Number of elements in array: ";           // Ask for size of array
@@ -109,4 +114,4 @@ int main() {
 
    delete[] array;            // De-allocate memory
    return 0;                  // End of the program
-}
+};
