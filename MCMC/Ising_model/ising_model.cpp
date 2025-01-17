@@ -72,7 +72,7 @@ int main() {
    };
    tsM = TotalSignedMagnetization(lattice);     // Initialize total, signed magnetization
 
-   solution_file.open("solution.txt");          // Open output file
+   solution_file.open("M_vs_T.dat");            // Open output file
 // Loop over temperatures
    T = T_low;
    for (i = 0; i < N_T; i++) {
