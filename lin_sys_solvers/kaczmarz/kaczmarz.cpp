@@ -7,39 +7,45 @@
 
 using namespace std;
 
-// Define create 2D array template
-template <class T> T **create2D(int h, int w) {
+// Create 2D array template
+template <class T> T **create2D(int h, int w)
+{
    T **array = new T*[h];
-   for(int i = 0; i < h; i++) array[i] = new T[w];
+   for (int i = 0; i < h; i++) array[i] = new T[w];
    return array;
-}
+};
 
-// Define delete 2D array template
-template <class T> void delete2D(T **array, int h, int w) {
-   for(int i = 0; i < h; i++) delete[] array[i];
+// Delete 2D array template
+template <class T> void delete2D(T **array, int h, int w)
+{
+   for (int i = 0; i < h; i++) delete[] array[i];
    delete[] array;
-}
+};
 
-// get ||.||_2 error in current approximation
-double error(double **A, double *b, double *x, int N) {
+// Calculate ||.||_2 error in approximate solution
+double error(double **A, double *b, double *x, int N)
+{
+   int i,j;             // dummy indices
    double err = 0;      // error
    double dot;          // column multiplication
-	for(int i = 0; i < N; i++) {
+   for (i = 0; i < N; i++) {
       dot = b[i];       // set value to b_i
-      for(int j = 0; j < N; j++) {
+      for (j = 0; j < N; j++) {
          dot -= A[i][j] * x[j];  // subtract a_i dotted with x
-      }
+      };
       err += dot*dot;   // square component
-   }
+   };
    return sqrt(err);    // return norm 2 error
-}
+};
 
-// dot row of A with x
-double row_dot(double **A, double *x, int row, int N) {
+// Dot row of A with x
+double row_dot(double **A, double *x, int row, int N)
+{
+   int j;               // dummy index
    double dot = 0;      // dot product
-   for(int j = 0; j < N; j++) dot += A[row][j] * x[j];
+   for (j = 0; j < N; j++) dot += A[row][j] * x[j];
    return dot;
-}
+};
 
 int main(void) {
    int i,j;             // dummy indices
@@ -67,15 +73,15 @@ int main(void) {
    x = new double[N];
 
    // Input matrix and vector values
-   for(i = 0; i < N; i++) {
+   for (i = 0; i < N; i++) {
       row_norm2[i] = 0;
-      for(j = 0; j < N; j++) {
+      for (j = 0; j < N; j++) {
          system >> A[i][j];
          row_norm2[i] += A[i][j] * A[i][j];  // update row squared values
-      }
+      };
       system >> b[i];
       x[i] = 0;                  // set initial guess to 0
-   }
+   };
 
    system.close();               // close system file
 
@@ -83,37 +89,37 @@ int main(void) {
 
    guesses.open("iterations.txt");     // open iterations file
 
-   for(iter = 0; iter < max_iter; iter++) {
+   for (iter = 0; iter < max_iter; iter++) {
       // output current guess
-      for(j = 0; j < N; j++) guesses << x[j] << " ";
+      for (j = 0; j < N; j++) guesses << x[j] << " ";
       guesses << endl;
-      if(error(A,b,x,N) < eps) break;  // break if solution is within desired accuracy
+      if (error(A,b,x,N) < eps) break;  // break if solution is within desired accuracy
       row = iter % N;         // get row for current iteration
       scalar = (b[row] - row_dot(A,x,row,N)) / row_norm2[row];
-      for(j = 0; j < N; j++) x[j] += scalar*A[row][j];     // update estimate
-   }
+      for (j = 0; j < N; j++) x[j] += scalar*A[row][j];     // update estimate
+   };
 
    guesses.close();                    // close iterations file
 
    // output approximate solution, iterations, and accuracy
-   if(iter == max_iter) {	// solution not found
+   if (iter == max_iter) { // solution not found
       cout << "Solution could not be approximated to desired accuracy"
            << " within " << iter << " iterations..." << endl
            << "The current best guess is:" << endl;
-      for(i = 0; i < N; i++) cout << x[i] << endl;
+      for (i = 0; i < N; i++) cout << x[i] << endl;
       cout << "with accuracy " << error(A,b,x,N) << endl;
    }
-   else {			// solution found
+   else {         // solution found
       cout << "Solution approximated within " << iter << " iterations:" << endl;
-      for(i = 0; i < N; i++) cout << x[i] << endl;
+      for (i = 0; i < N; i++) cout << x[i] << endl;
       cout << "with accuracy " << error(A,b,x,N) << endl;
-   }
+   };
 
-	// Clean-up
+   // Clean-up
    delete2D(A,N,N);
    delete[] row_norm2;
    delete[] b;
    delete[] x;
 
    return 0;
-}
+};
