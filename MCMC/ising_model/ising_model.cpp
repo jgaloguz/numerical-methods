@@ -4,6 +4,7 @@
 #include <fstream>
 #include <cmath>
 #include <cstdlib>
+
 using namespace std;
 
 #define N 100        // Length of either side of 2D lattice
@@ -36,12 +37,12 @@ void MarkovChain(double lattice[N][N], double T, long &tsM)
                                  + lattice[i][j_pls] + lattice[i][j_mns]); // local binding energy
 
 // NOTE: if H = {(positive) sum over product of neighboring spins}, then
-// pi_j / pi_i = exp[(H(j)-H(i))/T] for current state i and potential state j.
-// Since the potential state is just a single spin flip, then
+// pi_j / pi_i = exp[(H(j)-H(i))/T] for current state i and proposed state j.
+// Since the proposed state is just a single spin flip, then
 // H(j)-H(i) = -2.0 * {local energy of current spin}, prior to flip
    double acc_prob = fmin(1.0, exp(-2.0 * H_ij / T)); // acceptance probability (Metropolis-Hastings)
 
-   if (drand48() < acc_prob) {               // if potential state is accepted
+   if (drand48() < acc_prob) {               // if proposed state is accepted
       lattice[i][j] *= -1.0;                 // flip spin
       tsM += 2 * (long)lattice[i][j];        // {new tsM} = {old tSM} + 2 * {new spin state}
    };
@@ -85,11 +86,11 @@ int main() {
          MarkovChain(lattice, T, tsM);
          tuM += (tsM > 0 ? tsM : -tsM);
       };
-      M = (double)tuM / (double)(N * N * MC_trials);
+      M = (double)tuM / (double)(N * N * MC_trials);  // Normalize to make it an average
       solution_file << T << " " << M << endl;   // Output values to file
       T += dT;
    };
    solution_file.close();                       // Close output file
    
    return 0; // End of the program
-}
+};
