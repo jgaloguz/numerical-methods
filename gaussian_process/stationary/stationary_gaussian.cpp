@@ -1,4 +1,4 @@
-// Simulate a Gaussian process given its mean and covariance function
+// Simulate a stationary Gaussian process with zero mean given its covariance function
 
 #include <cmath>
 #include <iostream>
