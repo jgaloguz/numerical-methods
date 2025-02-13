@@ -9,4 +9,4 @@ birth_death.cpp input(s):
    - Final time to simulate, `Tf` (user-input).
 
 birth_death.cpp output(s):
-   - `population.txt` file with history of the process.
+   - `population.txt` file with the average population over time.
