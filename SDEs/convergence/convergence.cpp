@@ -5,8 +5,8 @@
 #include <random>
 #include <ctime>
 
-#define MODE 1 // MODE == 1: print sample trajectories; MODE == 2: compute strong and weak errors
-#define METHOD 1 // METHOD == 1: Euler-Maruyama; METHOD == 2: Milstein; METHOD == 3: RK2
+#define MODE 2 // MODE == 1: print sample trajectories; MODE == 2: compute strong and weak errors
+#define METHOD 4 // METHOD == 1: Euler-Maruyama; METHOD == 2: Milstein; METHOD == 3: RK2; METHOD == 4: stochastic theta (semi-implicit)
 // Note: Tocino & Ardunay (2002) also give a 2-stage RK method valid when db/dx = constant (eq. 35), different from the general RK2 method (eq. 41).
 
 // Square function
@@ -27,11 +27,13 @@ const int n_res = 4;                               // Number of resoluations for
 const int N_res[n_res] = {21, 101, 501, 2501};     // Number of steps per resolution
 const double T = 1.0;                              // Final time to simulate
 
-// Various constants for the RK2 method
+// Various constants for the RK2 and stochastic theta methods
 const double gam = 1.0 / 3.0;
 const double one_3gam = 1.0 / 3.0 / gam;
 const double rat1 = 1.0 / (2.0 + 6.0 * Sqr(gam));
 const double rat2 = 3.0 * Sqr(gam) * rat1;
+const double theta = 0.5;
+const double one_mnst = 1.0 - theta;
 
 // Function to interpolate f(y) were y is a value between x[low] and x[N-1]
 double Interp(double *f, double *x, double y, int &low)
@@ -69,6 +71,8 @@ inline double Growth(double dt, double dW)
    factor = 1.0 + 0.5 * r * (1.0 + GBM3) * dt
                 + alpha * (0.5 + rat1 * GBM1 + rat2 * GBM2) * dW
                 + 0.5 * alpha2 * (Sqr(dW) - dt);
+#elif METHOD == 4
+   factor = (1.0 + one_mnst * dt + alpha * dW) / (1 - theta * r * dt);
 #endif
    return factor;
 };
@@ -206,11 +210,11 @@ int main(void)
                 << std::setw(16) << (weak_sig[i] + sig) / R
                 << std::endl;
    };
-   // std::cout << std::endl;
-   // std::cout << std::setw(16) << dt_min
-   //           << std::setw(16) << mu
-   //           << std::setw(16) << sig / R
-   //           << std::endl;
+   std::cerr << std::endl;
+   std::cerr << std::setw(16) << dt_min
+             << std::setw(16) << mu
+             << std::setw(16) << sig
+             << std::endl;
 
 #endif
 
