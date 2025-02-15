@@ -5,8 +5,8 @@
 #include <random>
 #include <ctime>
 
-#define MODE 2 // MODE == 1: print sample trajectories; MODE == 2: compute strong and weak errors
-#define METHOD 4 // METHOD == 1: Euler-Maruyama; METHOD == 2: Milstein; METHOD == 3: RK2; METHOD == 4: stochastic theta (semi-implicit)
+#define MODE 1 // MODE == 1: print sample trajectories; MODE == 2: compute strong and weak errors
+#define METHOD 1 // METHOD == 1: Euler-Maruyama; METHOD == 2: Milstein; METHOD == 3: RK2; METHOD == 4: stochastic theta (semi-implicit)
 // Note: Tocino & Ardunay (2002) also give a 2-stage RK method valid when db/dx = constant (eq. 35), different from the general RK2 method (eq. 41).
 
 // Square function
