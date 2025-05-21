@@ -13,11 +13,11 @@
 
 using namespace std;
 
-#define RV_TYPE 0                   // Type of random variable
-#define N 10000                     // Number of samples in each i.i.d. sequence
+#define RV_TYPE 2                   // Type of random variable
+#define N 100                     // Number of samples in each i.i.d. sequence
 #define R 10000                     // Number of i.i.d. sequence realizations
 
-const double param1 = 0.0;          // Parameter 1 for any distribution
+const double param1 = 2.0;          // Parameter 1 for any distribution
 const double param2 = 1.0;          // Parameter 2 for any distribution
 
 // Sample of random variable
@@ -85,9 +85,9 @@ int main() {
    int distro_idx;                     // index for distribution
    double x;                           // dummy variable
    double iid;                         // i.i.d. random variable
-   double avg[N];                      // running average of i.i.d. sequence
+   double avg[N] = {0.0};              // running average of i.i.d. sequence
    double norm_avg;                    // normalized average of one i.i.d. sequence
-   double distro[100];                 // distribution of realizations of the normalized average of i.i.d. sequences
+   double distro[100] = {0.0};         // distribution of realizations of the normalized average of i.i.d. sequences
    double mean, variance;              // mean and variance of random variable of choice
    double scale;                       // scaling factor for normalized average
    bool is_finite;                     // flag to check for finite/defined mean and variance
