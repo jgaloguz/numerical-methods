@@ -12,3 +12,15 @@ LLN_and_CLT.cpp output(s):
    - Mean and variance of i.i.d. random variables being sampled (terminal-print).
    - `average.txt` file with the normalized average as a function of sample index for one realization. The mean is also plotted as a constant value for reference.
    - `distro.txt` file with the binned distribution of the normalized average after all realizations. The pdf of a normal random variable is also plotted for reference.
+
+plot_LLN.py input(s):
+   - `average.txt` file with cumulative average over sample index.
+
+plot_LLN.py output(s):
+   - Plot of the cumulative average over sample index.
+
+plot_CLT.py input(s):
+   - `distro.txt` file with the binned distribution of the normalized cumulative average.
+
+plot_CLT.py output(s):
+   - Plot of the binned distribution of the normalized cumulative average.
