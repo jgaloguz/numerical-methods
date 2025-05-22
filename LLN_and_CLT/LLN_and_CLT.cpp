@@ -13,11 +13,11 @@
 
 using namespace std;
 
-#define RV_TYPE 2                   // Type of random variable
-#define N 100                     // Number of samples in each i.i.d. sequence
+#define RV_TYPE 1                   // Type of random variable
+#define N 10000                     // Number of samples in each i.i.d. sequence
 #define R 10000                     // Number of i.i.d. sequence realizations
 
-const double param1 = 2.0;          // Parameter 1 for any distribution
+const double param1 = 0.0;          // Parameter 1 for any distribution
 const double param2 = 1.0;          // Parameter 2 for any distribution
 
 // Sample of random variable
