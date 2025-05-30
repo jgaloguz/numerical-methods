@@ -49,7 +49,6 @@ void MarkovChain(double lattice[N][N], double T, long &tsM)
 };
 
 int main() {
-
    double lattice[N][N];                     // 2D Ising-lattice
    double M;                                 // Average (unsigned) magnetization
    long tuM;                                 // Total unsigned magnetization
