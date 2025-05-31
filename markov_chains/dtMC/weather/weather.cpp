@@ -77,6 +77,7 @@ int main() {
    for (n = 0; n < N; n++) {
       Xn = NextState(Xn, P1);
       L[Xn] += 1.0;
+      forecast_file << Xn << endl;
       Multiply(Pn,P1);
    };
    forecast_file.close();
