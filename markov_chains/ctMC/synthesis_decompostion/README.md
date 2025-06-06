@@ -9,6 +9,8 @@ synthesis_decomposition.cpp input(s):
    - Synthesis reaction rate, `Rs` (user-input).
    - Decomposition reaction rate, `Rd` (user-input).
    - Final time to simulate, `Tf` (user-input).
+   - Number of time points along which to discretize a realization, `N` (hard-coded).
+   - Number of chain realizations for average, `R` (hard-coded).
 
 synthesis_decomposition.cpp output(s):
    - `reaction.txt` file with the average number of species over time.

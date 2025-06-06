@@ -7,7 +7,7 @@
 
 using namespace std;
 
-#define N 100                       // Number of times to average between 0 and Tf
+#define N 100                       // Number of times to discretize realization between 0 and Tf
 #define R 10000                     // Number of chain realizations
 
 // Exponential random variable
@@ -72,8 +72,8 @@ int main() {
       while (T < Tf) {
          Xold = Xnew;
 // Take step
-         T += BirthOrDeath(Xnew, Xold*Rb, Xold*Rd);
-         Tnext =  T / dT;
+         T += BirthOrDeath(Xnew, Rb, Rd);
+         Tnext = T / dT;
          if (Tnext >= N) Tnext = N-1;
 // Update average, if necessary
          for (j = Tlast+1; j <= Tnext; j++) EX[j] += Xold;

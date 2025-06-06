@@ -1,4 +1,4 @@
-// Birth-Death process as a continuous-time Markov chain
+// Synthesis-Decomposition reaction as a continuous-time Markov chain
 
 #include <iostream>
 #include <fstream>
@@ -7,7 +7,7 @@
 
 using namespace std;
 
-#define N 100                       // Number of times to average between 0 and Tf
+#define N 100                       // Number of times to discretize realization between 0 and Tf
 #define R 10000                     // Number of chain realizations
 
 // Poisson random variable
@@ -32,14 +32,14 @@ void Reactions(int *species, double synthesis_rate, double decomposition_rate)
    species[0] -= net_change;
    species[1] -= net_change;
    species[2] += net_change;
-// If limiting reagent is negative (i.e. ran out), adjust specie counts accordingly
+// If limiting reagent is negative (i.e. ran out), adjust species counts accordingly
    int lim_reag = fmin(species[0], species[1]);
    if (lim_reag < 0) {
       species[0] -= lim_reag;
       species[1] -= lim_reag;
       species[2] += lim_reag;
    }
-// If instead the product is negative (i.e. ran out), adjust specie counts accordingly
+// If instead the product is negative (i.e. ran out), adjust species counts accordingly
    else if (species[2] < 0) {
       species[0] += species[2];
       species[1] += species[2];
