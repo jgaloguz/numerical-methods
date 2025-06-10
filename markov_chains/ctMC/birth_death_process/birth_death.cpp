@@ -64,6 +64,7 @@ int main() {
 
 // Simulate many chains and average results
    for (i = 0; i < R; i++) {
+      cout << "\rTrial: " << i+1;
 // Reset population
       Tlast = 0;
       T = 0.0;
@@ -80,6 +81,7 @@ int main() {
          Tlast = Tnext;
       };
    };
+   cout << endl;
 // Normalize by number of realizations
    for (i = 0; i < N; i++) EX[i] /= R;
 

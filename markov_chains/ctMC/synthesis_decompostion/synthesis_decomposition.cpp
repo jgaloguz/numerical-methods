@@ -70,9 +70,9 @@ int main() {
    cin >> B0;
    cout << "Initial population of C: ";      // Ask for initial population of C
    cin >> C0;
-   cout << "Synthesis rate: ";               // Ask for birth rate
+   cout << "Synthesis rate: ";               // Ask for synthesis rate
    cin >> Rs;
-   cout << "Decomposition rate: ";           // Ask for death rate
+   cout << "Decomposition rate: ";           // Ask for decomposition rate
    cin >> Rd;
    cout << "Time to simulate: ";             // Ask for total simulation time
    cin >> Tf;
@@ -85,6 +85,7 @@ int main() {
 
 // Simulate many chains and average results
    for (k = 0; k < R; k++) {
+      cout << "\rTrial: " << k+1;
 // Reset population
       Xnew[0] = A0;
       Xnew[1] = B0;
@@ -94,9 +95,11 @@ int main() {
          for (j = 0; j < 3; j++) Xold[j] = Xnew[j];
 // Update species
          Reactions(Xnew, Xold[0]*Xold[1]*Rs*dT, Xold[2]*Rd*dT);
+// Update average
          for (j = 0; j < 3; j++) EX[i][j] += Xnew[j];
       };
    };
+   cout << endl;
 // Normalize by number of realizations
    for (i = 0; i < N; i++) {
       for (j = 0; j < 3; j++) EX[i][j] /= R;
