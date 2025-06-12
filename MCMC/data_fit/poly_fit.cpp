@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define B 10000                     // Number of burn-in time iterations
+#define B 1000                      // Number of burn-in time iterations
 #define I 100000                    // Number of Monte Carlo iterations
 
 // Square function
@@ -30,7 +30,7 @@ void prior(double *a, double *da, double *lb, double *ub, int M)
    int i;                  // dummy index
    for (i = 0; i <= M; i++) {
       a[i] = lb[i] + drand48() * (ub[i] - lb[i]);     // draw parameters from uniform distributions within specified bounds
-      da[i] = 0.1 * (ub[i] - lb[i]);                  // determine maximum jump per step in the chain, ~10% of parameter range
+      da[i] = 0.01 * (ub[i] - lb[i]);                 // determine maximum jump per step in the chain, ~1% of parameter range
    };
 };
 
@@ -59,7 +59,7 @@ double Chi2(double *x, double *y, double *s, int N, double *a, int M)
 bool MarkovChain(double &chi2, double *a, double *da, double *lb, double *ub, int M, double *x, double *y, double *s, int N)
 {
    int i;                  // dummy index
-   double a_new[M];        // proposed state
+   double a_new[M+1];      // proposed state
    double chi2_new;        // proposed Chi^2
 
 // Find proposed state and its Chi^2
@@ -84,7 +84,7 @@ int main() {
    int i, j;                        // dummy indices
    int N;                           // number of data points
    int M;                           // degree of model polynomial
-   int A;                           // number of accepted proposed states
+   int A = 0;                       // number of accepted proposed states
    double *x, *y, *s;               // data arrays
    double *a;                       // polynomial coefficients array
    double chi2;                     // Chi^2 for state
@@ -138,16 +138,16 @@ int main() {
 // Draw from posterior distribution and output chain states to file
    chain_file.open("chain.txt");
    chain_file << setprecision(6);
-   A = 0;                           // Reset accepted proposals counter
+   chain_file << scientific;
    for (i = 0; i < I; i++) {
       if (MarkovChain(chi2, a, da, lb, ub, M, x, y, s, N)) A += 1;
-      for (j = 0; j <= M; j++) chain_file << setw(12) << a[j];
+      for (j = 0; j <= M; j++) chain_file << setw(16) << a[j];
       chain_file << endl;
    };
    chain_file.close();
    cout << "Acceptance Ratio = " << (double)A / (double)I << endl;
 
-   // Clean-up
+// Clean-up
    delete[] a;
    delete[] lb;
    delete[] ub;

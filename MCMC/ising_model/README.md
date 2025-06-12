@@ -1,4 +1,4 @@
-**Markov Chain Monte Carlo (MCMC)**
+**2D Square Ising Lattice with Markov Chain Monte Carlo (MCMC)**
 
 An MCMC method applied to finding the critical (phase-change) temperature of a square 2D Ising-lattice of locally, isotropically interacting magnetic spins without an external magnetic field.
 

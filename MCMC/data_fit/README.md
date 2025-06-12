@@ -1,6 +1,6 @@
-**Markov Chain Monte Carlo (MCMC)**
+**Polynomial Regression with Markov Chain Monte Carlo (MCMC)**
 
-An MCMC method applied to fitting data with a polynomial model using a Bayesian maximum-likelihood approach.
+An MCMC method applied to "fitting" data with a polynomial model using a Bayesian maximum-likelihood approach. More precisely, MCMC allows probabilistic inference of likely parameters given data and an a priori model.
 
 poly_fit.cpp input(s):
    - `data.txt` file, containing the data to be fit by a model. This file has the total number of samples, `N`, in the first line and one sample per line after that. The format of the samples is `x y s` (whitespace separated) where `x` is the dependent variable, `y` is the independent variable, and `s` is the uncertainty in the data.
@@ -18,4 +18,4 @@ plot_chain.py inputs(s):
    - `chain.txt` file with history of the chain (output from poly_fit.cpp).
 
 plot_chain.py outputs(s):
-   - Plots of the posterior distribution from histograms of the chain's history.
+   - Plots of the posterior distributions, chain history, and predicted models from sample paramters.
