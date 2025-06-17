@@ -48,7 +48,6 @@ void Reactions(int *species, double synthesis_rate, double decomposition_rate)
 // Note that they won't both be negative simultaneously because their net change is opposite
 };
 
-
 int main() {
    int i,j,k;                          // dummy indices
    int A0, B0, C0;                     // initial number of each specie
