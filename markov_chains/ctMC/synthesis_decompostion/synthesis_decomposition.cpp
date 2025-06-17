@@ -11,7 +11,8 @@ using namespace std;
 #define R 10000                     // Number of chain realizations
 
 // Poisson random variable
-inline int PoiRand(double rate) {
+inline int PoiRand(double rate)
+{
    double U = drand48();
    int k = 0;
    double e_rate = exp(-rate);
