@@ -28,7 +28,7 @@ inline int Poisson(double lambda)
 };
 
 // Cauchy random variable with location 0 and scale 1 / dt.
-inline double Cauchy(double dt) {return tan(M_PI * (drand48() - 0.5)) / dt;};
+inline double Cauchy(double dt) {return dt * tan(M_PI * (drand48() - 0.5));};
 
 // Gaussian random variable with mean 0 and variance dt
 inline double Normal(double dt)
@@ -46,16 +46,16 @@ inline double Normal(double dt)
    else normal = sin(ang) * rad;
 
    draw += 1;
-   return normal;
+   return sqrt(dt) * normal;
 };
 
 // Increment Law
 double Increment(double dt) 
 {
-   return Poisson(1.0 * dt); // Poisson increments
-   // return 0.01 * Cauchy(dt); // scaled Cauchy increments
+   return Poisson(2.0 * dt); // Poisson increments
+   // return Cauchy(dt); // scaled Cauchy increments
    // return 1.0 * dt + 0.5 * Normal(dt); // Gaussian increments with drift
-   // return 20.0 * Poisson(dt) + Normal(dt); // Poisson + normal increments
+   // return 1.0 * Poisson(dt) + Normal(dt); // Poisson + normal increments
 };
 
 int main() {
