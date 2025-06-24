@@ -4,7 +4,7 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-// #include <Eigen/Dense>
+#include <Eigen/Dense>
 
 using namespace std;
 
@@ -31,10 +31,10 @@ template <class T> void delete2Dlower(T **array, int h)
 // Print lower-triangular matrix
 template <class T> void PrintLower(T **array, int h)
 {
-   std::cout << setprecision(8);
+   cout << setprecision(8);
    for (int i = 0; i < h; i++) {
-      for (int j = 0; j <= i; j++) std::cout << setw(18) << array[i][j];
-      std::cout << std::endl;
+      for (int j = 0; j <= i; j++) cout << setw(18) << array[i][j];
+      cout << endl;
    };
 };
 
@@ -56,7 +56,7 @@ double BoxMuller()
 // Check eigenvalues for a symmetric matrix and check if they are positive (requires Eigen library)
 void CheckEigenValues(double **A, int N)
 {
-#ifdef EIGEN_CORE_H
+#ifdef EIGEN_CORE_MODULE_H
    int i,j;       // dummy indices
 // Load symmetric matrix from lower triangular matrix
    Eigen::MatrixXd A_full(N,N);
@@ -71,9 +71,9 @@ void CheckEigenValues(double **A, int N)
    Eigen::VectorXd eigenvalues = ev.eigenvalues();
    for (i = 0; i < N; i++) {
       if (eigenvalues(i) < 0.0) {
-         std::cerr << "WARNING: Negative eigenvalues detected." << std::endl
-                   << "\tCovariance matrix is NOT positive-definite to machine precision." << std::endl
-                   << "\tCholesky decomposition will likely fail." << std::endl;
+         cerr << "WARNING: Negative eigenvalues detected." << endl
+              << "\tCovariance matrix is NOT positive-definite to machine precision." << endl
+              << "\tCholesky decomposition will likely fail." << endl;
          break;
       };
    };
@@ -162,16 +162,16 @@ int main(void) {
 
 // Simulate process
    process_file.open("gaussian.txt");
-   process_file << std::setprecision(8);
+   process_file << setprecision(8);
    process_file << setw(16) << 0.0
                 << setw(16) << Mean(0.0)
-                << std::endl;
+                << endl;
    for (i = 0; i < N; i++) {
       X = Mean(T[i]);
       for (j = 0; j <= i; j++) X += L[i][j] * g[j];
       process_file << setw(16) << T[i]
                    << setw(16) << X
-                   << std::endl;
+                   << endl;
    };
    process_file.close();
 
