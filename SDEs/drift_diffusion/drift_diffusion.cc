@@ -7,6 +7,8 @@
 #include <ctime>
 #include <cstring>
 
+using namespace std;
+
 // Simulation paramters
 const double D = 1.0;                  // Diffusion coefficient
 const double u = 1.0;                  // Drift coefficient
@@ -37,7 +39,7 @@ inline double Solution(double x, double t)
 };
 
 // Normal distributed random number using Box-Muller method
-double NormalRandom()
+double NormalRandom(void)
 {
    static bool roll = true;
    static double U1, U2;
@@ -71,9 +73,9 @@ int main(int argc, char** argv)
    double forward1_distro[Nx], forward2_distro[Nx];
    double backward1_distro[Nx], backward2_distro[Nx];
    double particle1, particle2, x0, dX = X2-X1, sum;
-   std::ofstream forward1_file, forward2_file;
-   std::ofstream backward1_file, backward2_file;
-   std::ofstream traj_forw_file, traj_back_file;
+   ofstream forward1_file, forward2_file;
+   ofstream backward1_file, backward2_file;
+   ofstream traj_forw_file, traj_back_file;
 
 // Initialize random seed
    srand(time(NULL));
@@ -92,7 +94,7 @@ int main(int argc, char** argv)
    traj_back_file.open("traj_back.txt");
 // Iterate through particles
    for (i = 0; i < Np; i++) {
-      std::cout << "\rParticle " << i;
+      cout << "\rParticle " << i;
 // Initialize particle 1
       particle1 = 0.0;
 // Propagate forward until Ti
@@ -101,10 +103,10 @@ int main(int argc, char** argv)
       BinEvent(particle1, weight1, X, forward1_distro);
 // Propagate forward until Tf
       for (j = 0; j < Nt2; j++) {
-         traj_forw_file << std::setw(20) << particle1;
+         traj_forw_file << setw(20) << particle1;
          particle1 += V + W * NormalRandom();
       };
-      traj_forw_file << std::setw(20) << particle1 << std::endl;
+      traj_forw_file << setw(20) << particle1 << endl;
 // Record
       BinEvent(particle1, weight1, X, forward2_distro);
 // Initialize particle 2
@@ -113,15 +115,15 @@ int main(int argc, char** argv)
 // Propagate backward until Ti
       for (j = 0; j < Nt2; j++) {
          particle1 -= V + W * NormalRandom();
-         traj_back_file << std::setw(20) << particle2;
+         traj_back_file << setw(20) << particle2;
          particle2 -= V + W * NormalRandom();
       };
-      traj_back_file << std::setw(20) << particle2 << std::endl;
+      traj_back_file << setw(20) << particle2 << endl;
 // Record
       BinEvent(particle1, weight1, X, backward1_distro);
       BinEvent(x0, Solution(particle2,Ti), X, backward2_distro);
    };
-   std::cout << "\rParticle " << Np << std::endl;
+   cout << "\rParticle " << Np << endl;
 
    traj_forw_file.close();
    traj_back_file.close();
@@ -139,15 +141,15 @@ int main(int argc, char** argv)
    backward1_file.open("backward1.txt");
    backward2_file.open("backward2.txt");
    for (i = 0; i < Nx; i++) {
-      forward1_file << forward1_distro[i] << std::endl;
-      forward2_file << forward2_distro[i] << std::endl;
-      backward1_file << backward1_distro[i] << std::endl;
-      backward2_file << backward2_distro[i] << std::endl;
+      forward1_file << forward1_distro[i] << endl;
+      forward2_file << forward2_distro[i] << endl;
+      backward1_file << backward1_distro[i] << endl;
+      backward2_file << backward2_distro[i] << endl;
    };
    forward1_file.close();
    forward2_file.close();
    backward1_file.close();
    backward2_file.close();
 
-   return 0;
+   return 0; // End of the program
 };

@@ -5,6 +5,8 @@
 #include <random>
 #include <ctime>
 
+using namespace std;
+
 #define MODE 1 // MODE == 1: print sample trajectories; MODE == 2: compute strong and weak errors
 #define METHOD 1 // METHOD == 1: Euler-Maruyama; METHOD == 2: Milstein; METHOD == 3: RK2; METHOD == 4: stochastic theta (semi-implicit)
 // Note: Tocino & Ardunay (2002) also give a 2-stage RK method valid when db/dx = constant (eq. 35), different from the general RK2 method (eq. 41).
@@ -86,17 +88,17 @@ double IntegrateOne(double *t, double *W, double dt, double N, bool print)
    double s = 0.0;            // time to interpolate pre-realized Weiner process
    double U, V = W[0];        // next and last interpolated values
    for (i = 1; i < N; i++) {
-      if (print) std::cout << std::setw(16) << s
-                           << std::setw(16) << GBM
-                           << std::endl;
+      if (print) cout << setw(16) << s
+                      << setw(16) << GBM
+                      << endl;
       s += dt;
       U = Interp(W,t,s,j);
       GBM *= Growth(dt, U - V);
       V = U;
    };
-   if (print) std::cout << std::setw(16) << s
-                        << std::setw(16) << GBM
-                        << std::endl;
+   if (print) cout << setw(16) << s
+                   << setw(16) << GBM
+                   << endl;
 
    return GBM;
 };
@@ -121,9 +123,9 @@ int main(void)
    };
 
 // RNG stuff
-   std::default_random_engine generator;
+   default_random_engine generator;
    generator.seed(time(NULL));
-   std::normal_distribution<double> distribution(0.0,sqrt(dt_min));
+   normal_distribution<double> distribution(0.0,sqrt(dt_min));
 
 #if MODE == 1
 
@@ -136,25 +138,25 @@ int main(void)
    };
 
 // Output Weiner process and GBM realized with it
-   std::cout << std::setprecision(8);
+   cout << setprecision(8);
    for (i = 0; i < N; i++) {
-      std::cout << std::setw(16) << t[i]
-                << std::setw(16) << GBM0 * exp(beta * t[i] + alpha * W[i])
-                << std::endl;
+      cout << setw(16) << t[i]
+           << setw(16) << GBM0 * exp(beta * t[i] + alpha * W[i])
+           << endl;
    };
-   std::cout << std::endl;
+   cout << endl;
 
 // Numerically solve GBM
    for (i = 0; i < n_res; i++) {
       IntegrateOne(t, W, dt_res[i], N_res[i], true);
-      std::cout << std::endl;
+      cout << endl;
    };
 
 #elif MODE == 2
 
-   std::cerr << "0% complete" << std::endl;
+   cerr << "0% complete" << endl;
    for (j = 0; j < R; j++) {
-      if ((j+1) % R_10 == 0) std::cerr << 100*(j+1)/R << "% complete" << std::endl;
+      if ((j+1) % R_10 == 0) cerr << 100*(j+1)/R << "% complete" << endl;
 
 // Generate Wiener process and GBM
       t[0] = 0.0;
@@ -203,18 +205,18 @@ int main(void)
 
 // Output results
    for (i = 0; i < n_res; i++) {
-      std::cout << std::setw(16) << dt_res[i]
-                << std::setw(16) << strong_mu[i]
-                << std::setw(16) << strong_sig[i] / R
-                << std::setw(16) << fabs(weak_mu[i] - mu)
-                << std::setw(16) << (weak_sig[i] + sig) / R
-                << std::endl;
+      cout << setw(16) << dt_res[i]
+           << setw(16) << strong_mu[i]
+           << setw(16) << strong_sig[i] / R
+           << setw(16) << fabs(weak_mu[i] - mu)
+           << setw(16) << (weak_sig[i] + sig) / R
+           << endl;
    };
-   std::cerr << std::endl;
-   std::cerr << std::setw(16) << dt_min
-             << std::setw(16) << mu
-             << std::setw(16) << sig
-             << std::endl;
+   cerr << endl;
+   cerr << setw(16) << dt_min
+        << setw(16) << mu
+        << setw(16) << sig
+        << endl;
 
 #endif
 
@@ -222,6 +224,6 @@ int main(void)
    delete[] GBMT;
    for (i = 0; i < n_res; i++) delete[] GBMT_num[i];
 
-   return 0;
+   return 0; // End of the program
 };
 
