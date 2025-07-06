@@ -115,7 +115,7 @@ int main(void)
    for (j = 0; j < N; j++) {
       avgs_file << setw(20) << t
                 << setw(20) << EX[j]
-                << setw(20) << EX2[j] - Sqr(EX[j])
+                << setw(20) << sqrt(EX2[j] - Sqr(EX[j]))
                 << endl;
       t += dt;
    };
