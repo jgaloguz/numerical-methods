@@ -1,6 +1,6 @@
 **Convergence Rates**
 
-Illustrate convergence rates of various SDE solvers using geometric brownian motion (GBM). Currently, 4 methods with the respective (weak, strong) convergence rates are explored: Euler-Maruyama (1, 1/2), Milstein (1, 1), RK2 (1, 2), semi-implicit stochastic theta (1/2, 1/2).
+Illustrate convergence rates of various SDE solvers using geometric brownian motion (GBM). Currently, 4 methods with the respective (weak, strong) convergence rates are explored: Euler-Maruyama (1, 1/2), Milstein (1, 1), RK2 (1, 2), semi-implicit stochastic-theta (1/2, 1/2).
 
 convergence.cpp input(s):
    - Flag to either show trajectories or compute approximation errors, `MODE` (hard-coded).

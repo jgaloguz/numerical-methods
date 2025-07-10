@@ -18,7 +18,7 @@ inline double Sqr(double x) {return x * x;};
 const double r = 1.0;                              // drift constant
 const double alpha = 0.5;                          // diffusion constant
 const double alpha2 = Sqr(alpha);                  // square of diffusion constant
-const double beta = r - 0.5 * alpha * alpha;       // combined exponent of solution
+const double rbar = r - 0.5 * alpha * alpha;       // combined exponent of solution
 const double GBM0 = 1.0;                           // initial point
 
 // Simulation parameters
@@ -141,7 +141,7 @@ int main(void)
    cout << setprecision(8);
    for (i = 0; i < N; i++) {
       cout << setw(16) << t[i]
-           << setw(16) << GBM0 * exp(beta * t[i] + alpha * W[i])
+           << setw(16) << GBM0 * exp(rbar * t[i] + alpha * W[i])
            << endl;
    };
    cout << endl;
@@ -165,7 +165,7 @@ int main(void)
          t[i] = i * dt_min;
          W[i] = W[i-1] + distribution(generator);
       };
-      GBMT[j] = GBM0 * exp(beta * t[N-1] + alpha * W[N-1]);
+      GBMT[j] = GBM0 * exp(rbar * t[N-1] + alpha * W[N-1]);
 
 // Numerically solve GBM
       for (i = 0; i < n_res; i++) GBMT_num[i][j] = IntegrateOne(t, W, dt_res[i], N_res[i], false);
@@ -212,10 +212,10 @@ int main(void)
            << setw(16) << (weak_sig[i] + sig) / R
            << endl;
    };
-   cerr << endl;
-   cerr << setw(16) << dt_min
-        << setw(16) << mu
-        << setw(16) << sig
+   cerr << endl
+        << "smallest dt = " << dt_min << endl
+        << "empirical mean = " << mu << endl
+        << "empirical variance = " << sig << endl
         << endl;
 
 #endif
