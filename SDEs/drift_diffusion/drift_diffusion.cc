@@ -15,14 +15,14 @@ const double u = 1.0;                  // Drift coefficient
 const double Ti = 0.5;                 // Initial time
 const double Tf = 2.0;                 // Final time
 const int Nt = 1000;                   // Number of time steps between 0 and Tf
-const int Np = 10000;                  // Total number of particles
+const int Np = 100000;                 // Total number of particles
 
 // Binning parameters
 const double Xi = -10.0;               // Initial spatial coordinate for binning
 const double Xf = 10.0;                // Final spatial coordinate for binning
 const int Nx = 100;                    // Number of spatial bins
 
-// Derived parameters
+// Derived parameters and constants
 const double dt = Tf / (Nt - 1);       // Time resolution
 const int Nt1 = Nt * (Ti / Tf);        // Time checkpoint 1 in number of steps
 const int Nt2 = Nt - Nt1;              // Time checkpoint 2 in number of steps
@@ -69,10 +69,11 @@ int main(int argc, char** argv)
    double V = u * dt, W = sqrt(2.0 * D * dt);
    double X1 = u * Tf - 3.0 * sqrt(2.0 * D * Tf);
    double X2 = u * Tf + 3.0 * sqrt(2.0 * D * Tf);
-   double X[Nx+1], weight1 = 1.0 / dx / (double)Np;
+   double x, X[Nx+1], weight1 = 1.0 / dx / (double)Np;
    double forward1_distro[Nx], forward2_distro[Nx];
    double backward1_distro[Nx], backward2_distro[Nx];
    double particle1, particle2, x0, dX = X2-X1, sum;
+   ofstream analytic1_file, analytic2_file;
    ofstream forward1_file, forward2_file;
    ofstream backward1_file, backward2_file;
    ofstream traj_forw_file, traj_back_file;
@@ -121,7 +122,7 @@ int main(int argc, char** argv)
       traj_back_file << setw(20) << particle2 << endl;
 // Record
       BinEvent(particle1, weight1, X, backward1_distro);
-      BinEvent(x0, Solution(particle2,Ti), X, backward2_distro);
+      BinEvent(x0, Solution(particle2, Ti), X, backward2_distro);
    };
    cout << "\rParticle " << Np << endl;
 
@@ -130,21 +131,33 @@ int main(int argc, char** argv)
 
 // Normalize backward2_distro
    sum = 0.0;
-   for (i = 0; i < Nx; i++) backward2_distro[i] /= (forward2_distro[i]+1.0e-15);
    for (i = 0; i < Nx; i++) sum += backward2_distro[i];
    sum *= dx;
    for (i = 0; i < Nx; i++) backward2_distro[i] /= sum;
 
 // Output
+   analytic1_file.open("analytic1.txt");
+   analytic2_file.open("analytic2.txt");
    forward1_file.open("forward1.txt");
    forward2_file.open("forward2.txt");
    backward1_file.open("backward1.txt");
    backward2_file.open("backward2.txt");
    for (i = 0; i < Nx; i++) {
-      forward1_file << forward1_distro[i] << endl;
-      forward2_file << forward2_distro[i] << endl;
-      backward1_file << backward1_distro[i] << endl;
-      backward2_file << backward2_distro[i] << endl;
+      analytic1_file << setw(16) << X[i]
+                     << setw(16) << Solution(X[i], Ti) << endl;
+      analytic2_file << setw(16) << X[i]
+                     << setw(16) << Solution(X[i], Tf) << endl;
+   };
+   for (i = 0; i < Nx; i++) {
+      x = 0.5 * (X[i] + X[i+1]);
+      forward1_file << setw(16) << x
+                    << setw(16) << forward1_distro[i] << endl;
+      forward2_file << setw(16) << x
+                    << setw(16) << forward2_distro[i] << endl;
+      backward1_file << setw(16) << x
+                     << setw(16) << backward1_distro[i] << endl;
+      backward2_file << setw(16) << x
+                     << setw(16) << backward2_distro[i] << endl;
    };
    forward1_file.close();
    forward2_file.close();
